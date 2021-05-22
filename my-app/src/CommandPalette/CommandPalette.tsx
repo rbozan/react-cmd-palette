@@ -43,19 +43,14 @@ export const CommandPalette = ({ children, FuseOptions }: CommandPaletteProps) =
      * ```
      * */
     const addAction = (newAction: Action) => {
-        console.log('adding action', newAction);
-        console.log('actions', JSON.stringify(actions));
         if (actions.find((action) => action.id === newAction.id)) throw Error('This action already has been added. Did you forget to remove this action with removeAction beforehand?')
 
-        console.log('ACTION ADDED')
-        return setActions([...actions, newAction])
+        return setActions(prevActions => [...prevActions, newAction])
     }
 
     /** Removes a certain action from the command palette */
     const removeAction = (givenAction: Action) => {
-        console.log('givenAction.id', givenAction.id)
-        console.log('actions', JSON.stringify(actions));
-        return setActions(actions.filter((action) => action.id !== givenAction.id));
+        return setActions(prevActions => prevActions.filter((action) => action.id !== givenAction.id))
     }
 
     /** Shows the command palette to the user */
@@ -80,8 +75,9 @@ export const CommandPalette = ({ children, FuseOptions }: CommandPaletteProps) =
                 <input />
                 <section className="command-palette--results">
                     {actions.map((action) => <div key={action.id} className="command-palette--results-result">
-                        {action.title}
-                        {action.id}
+                        <div>{action.leading}</div>
+                        <h6>title: {action.title}</h6>
+                        <small>id: {action.id}</small>
                     </div>)}
                 </section>
             </div>}
