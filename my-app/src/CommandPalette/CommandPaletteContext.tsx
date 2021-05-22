@@ -2,7 +2,7 @@ import { createContext } from "react";
 import { Action } from "./CommandPalette";
 
 export interface ICommandPaletteContext {
-    actions: any[];
+    actions: Action[];
     addAction(action: Action): void;
     removeAction(action: Action): void;
     open(): void;

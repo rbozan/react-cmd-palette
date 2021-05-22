@@ -1,1 +1,2 @@
-export { CommandPalette } from './CommandPalette'
+export * from './CommandPalette'
+export * from './CommandPaletteContext'
