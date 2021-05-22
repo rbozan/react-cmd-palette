@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import CommandPaletteContext from "./CommandPaletteContext"
 import Fuse from 'fuse.js'
 import './CommandPalette.css'
 
 interface CommandPaletteProps {
-    children: React.ReactNode
     /**
      * Options provided by module Fuse.js.
      * Visit their [online documentation](https://fusejs.io/api/options.html) for more information.
      * */
     FuseOptions?: Fuse.IFuseOptions<Action>
+
+    children: React.ReactNode
+
+    InputProps?: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 }
 
 export interface Action {
@@ -26,9 +29,14 @@ export interface Action {
 
 }
 
-export const CommandPalette = ({ children, FuseOptions }: CommandPaletteProps) => {
+export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPaletteProps) => {
     const [actions, setActions] = useState<Action[]>([]);
     const [isOpen, setOpen] = useState(false);
+    const [input, setInput] = useState<string | undefined>(undefined);
+
+    const defaultFuseOptions: typeof FuseOptions = {
+        keys: ['title'],
+    };
 
     /**
      * Adds a new action to the command palette.
@@ -61,7 +69,23 @@ export const CommandPalette = ({ children, FuseOptions }: CommandPaletteProps) =
 
 
     const search = (text: string) => {
-        var fuse = new Fuse<Action>(actions, FuseOptions);
+        setInput(text);
+
+    }
+
+    const FuseOptions2 = useMemo(() => ({ ...defaultFuseOptions, ...FuseOptions }), [defaultFuseOptions, FuseOptions])
+
+    const filteredActions = useMemo(() => {
+        if (!input) return actions;
+        var fuse = new Fuse<Action>(actions, FuseOptions2);
+
+        const results = fuse.search(input);
+        console.log('fuse results', fuse.search(input));
+        return results.sort((a, b) => (a.score ?? 0) - (b.score ?? 0)).map(v => v.item)
+    }, [actions, input, FuseOptions2])
+
+    const handleInput = (e: FormEvent<HTMLInputElement>) => {
+        search(e.currentTarget.value);
     }
 
     return (
@@ -72,11 +96,11 @@ export const CommandPalette = ({ children, FuseOptions }: CommandPaletteProps) =
 
             {/* The actual command palette */}
             {isOpen && <div className="command-palette">
-                <input />
+                <input {...InputProps} onInput={handleInput} />
                 <section className="command-palette--results">
-                    {actions.map((action) => <div key={action.id} className="command-palette--results-result">
+                    {filteredActions.map((action) => <div key={action.id} className="command-palette--results-result">
                         <div>{action.leading}</div>
-                        <h6>title: {action.title}</h6>
+                        <h6 className="command-palette--results-result-title">{action.title}</h6>
                         <small>id: {action.id}</small>
                     </div>)}
                 </section>

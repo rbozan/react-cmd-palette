@@ -5,15 +5,17 @@ import BasicExample from "./examples/BasicExample";
 import Navbar from "./examples/common/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import KeyboardShortcutExample from "./examples/KeyboardShortcut";
+import ALotOfActionsExample from "./examples/ALotOfActionsExample";
 
 function App() {
   return (
-    <CommandPalette>
+    <CommandPalette InputProps={{ placeholder: "What do you want to search?" }}>
       <BrowserRouter>
         <Navbar />
         <Routes>
           <Route path="/basic" element={<BasicExample />} />
           <Route path="/keyboard-shortcut" element={<KeyboardShortcutExample />} />
+          <Route path="/a-lot-of-actions" element={<ALotOfActionsExample />} />
         </Routes>
       </BrowserRouter>
     </CommandPalette>
