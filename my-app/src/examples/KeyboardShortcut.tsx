@@ -17,7 +17,6 @@ const KeyboardShortcutExample = () => {
 
     return <>
         <p>TODO: Open the command palette by pressing CTRL + P</p>
-        <button onClick={open}>Open command palette</button>
     </>;
 }
 
