@@ -1,8 +1,14 @@
 import { useState } from "react";
 import CommandPaletteContext from "./CommandPaletteContext"
+import Fuse from 'fuse.js'
 
 interface CommandPaletteProps {
     children: React.ReactNode
+    /**
+     * Options provided by module Fuse.js.
+     * Visit their [online documentation](https://fusejs.io/api/options.html) for more information.
+     * */
+    FuseOptions: Fuse.IFuseOptions<Action>
 }
 
 export interface Action {
@@ -14,13 +20,25 @@ export interface Action {
     name: string,
     /** Could be anything */
     data: object,
+
 }
 
-export const CommandPalette = ({ children }: CommandPaletteProps) => {
+export const CommandPalette = ({ children, FuseOptions }: CommandPaletteProps) => {
     const [actions, setActions] = useState<Action[]>([]);
     const [isOpen, setOpen] = useState(false);
 
-    /** Adds a new action to the command palette */
+    /**
+     * Adds a new action to the command palette.
+     * 
+     * To add a dynamic action, you could combine `addAction` and `removeAction` with `useEffect`.
+     * @example
+     * ```typescript
+     * useEffect(() => {
+     *  addAction({ id: 'config', name: 'Open user configuration' })
+     *  return () => { removeAction({ id: 'config' }) }
+     * })
+     * ```
+     * */
     const addAction = (newAction: Action) => {
         if (actions.find((action) => action.id === newAction.id)) throw Error('This action already has been added. Did you forget to remove this action with removeAction beforehand?')
         return setActions([...actions, newAction])
@@ -39,7 +57,7 @@ export const CommandPalette = ({ children }: CommandPaletteProps) => {
 
 
     const search = (text: string) => {
-
+        var fuse = new Fuse<Action>(actions, FuseOptions);
     }
 
     return (
