@@ -115,7 +115,13 @@ export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPal
             {shown && <>
                 <div className="command-palette--overlay" onClick={hide}></div>
                 <div className="command-palette">
-                    <input type="search" {...InputProps} onInput={handleInput} /*ref={inputRef}*/ autoFocus />
+                    <header className="command-palette--header">
+                        <input type="search" {...InputProps} onInput={handleInput} /*ref={inputRef}*/ autoFocus /><div className="command-palette--header--help">
+                            <div><kbd>↑↓</kbd> or <kbd>tab</kbd> to navigate</div>
+                            <div><kbd>enter</kbd> or <kbd>click</kbd> to select</div>
+                            <div><kbd>esc</kbd> to close</div>
+                        </div>
+                    </header>
                     <section className="command-palette--results">
                         {filteredActions.map((action) => <div key={action.id} tabIndex={0} onKeyDown={(e) => {
                             if (e.key === "Enter") return action.onSelect?.();
