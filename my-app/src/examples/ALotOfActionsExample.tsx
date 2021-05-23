@@ -17,10 +17,12 @@ const ALotOfActionsExample = () => {
         }
     });
 
-
     const testActions: Action[] = Array.from({ length: 50 }, (_, i) => ({
-        id: i + '5',
-        title: lorem.generateSentences(1)
+        id: i,
+        title: lorem.generateSentences(1),
+        onSelect: () => {
+            alert('You selected action #' + i);
+        }
     }))
 
     useEffect(() => {

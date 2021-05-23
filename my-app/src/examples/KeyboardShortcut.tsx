@@ -24,7 +24,7 @@ const KeyboardShortcutExample = () => {
     }, []);
 
     return <>
-        <p>Open the command palette by pressing CTRL + P</p>
+        <p>Toggle the command palette by pressing CTRL + P</p>
     </>;
 }
 

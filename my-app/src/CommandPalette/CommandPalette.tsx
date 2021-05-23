@@ -1,7 +1,8 @@
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useCallback, useMemo, useState } from "react";
 import CommandPaletteContext from "./CommandPaletteContext"
 import Fuse from 'fuse.js'
 import './CommandPalette.css'
+import { useHotkeys } from "react-hotkeys-hook";
 
 interface CommandPaletteProps {
     /**
@@ -27,16 +28,15 @@ export interface Action {
     /** Additional data which describes the action */
     data?: object,
 
+    /** Event handler when the action has been selected */
+    onSelect?: () => void
+
 }
 
 export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPaletteProps) => {
     const [actions, setActions] = useState<Action[]>([]);
     const [shown, setShown] = useState(false);
     const [input, setInput] = useState<string | undefined>(undefined);
-
-    const defaultFuseOptions: typeof FuseOptions = {
-        keys: ['title'],
-    };
 
     /**
      * Adds a new action to the command palette.
@@ -75,23 +75,32 @@ export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPal
 
     const search = (text: string) => {
         setInput(text);
-
     }
 
-    const FuseOptions2 = useMemo(() => ({ ...defaultFuseOptions, ...FuseOptions }), [defaultFuseOptions, FuseOptions])
+
+    const defaultFuseOptions: typeof FuseOptions = {
+        keys: ['title'],
+    };
+    const MergedFuseOptions = useMemo(() => ({ ...defaultFuseOptions, ...FuseOptions }), [defaultFuseOptions, FuseOptions])
 
     const filteredActions = useMemo(() => {
         if (!input) return actions;
-        var fuse = new Fuse<Action>(actions, FuseOptions2);
+        var fuse = new Fuse<Action>(actions, MergedFuseOptions);
 
         const results = fuse.search(input);
         console.log('fuse results', fuse.search(input));
         return results.sort((a, b) => (a.score ?? 0) - (b.score ?? 0)).map(v => v.item)
-    }, [actions, input, FuseOptions2])
+    }, [actions, input, MergedFuseOptions])
 
     const handleInput = (e: FormEvent<HTMLInputElement>) => {
         search(e.currentTarget.value);
     }
+
+    // TODO: Escape button does not work properly
+    useHotkeys('escape', useCallback((e) => {
+        console.log('ESCAPE!', shown)
+        if (shown) hide();
+    }, [shown]))
 
     return (
         <CommandPaletteContext.Provider value={
@@ -99,17 +108,18 @@ export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPal
         }>
             {children}
 
-            {/* The actual command palette */}
             {shown && <div className="command-palette">
-                <input {...InputProps} onInput={handleInput} />
+                <input type="search" {...InputProps} onInput={handleInput} />
                 <section className="command-palette--results">
-                    {filteredActions.map((action) => <div key={action.id} className="command-palette--results-result">
+                    {filteredActions.map((action) => <div key={action.id} tabIndex={0} onKeyDown={(e) => {
+                        if (e.key === "Enter") return action.onSelect?.();
+                    }} className="command-palette--results-result" onClick={action.onSelect} >
                         <div>{action.leading}</div>
                         <h6 className="command-palette--results-result-title">{action.title}</h6>
-                        <small>id: {action.id}</small>
+                        {/* <small>id: {action.id}</small> */}
                     </div>)}
                 </section>
             </div>}
-        </CommandPaletteContext.Provider>
+        </CommandPaletteContext.Provider >
     );
 }

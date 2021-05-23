@@ -1,0 +1,10 @@
+header {
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+}

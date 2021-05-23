@@ -12,11 +12,13 @@ function App() {
     <CommandPalette InputProps={{ placeholder: "What do you want to search?" }}>
       <BrowserRouter>
         <Navbar />
-        <Routes>
-          <Route path="/basic" element={<BasicExample />} />
-          <Route path="/keyboard-shortcut" element={<KeyboardShortcutExample />} />
-          <Route path="/a-lot-of-actions" element={<ALotOfActionsExample />} />
-        </Routes>
+        <div className="container">
+          <Routes>
+            <Route path="/basic" element={<BasicExample />} />
+            <Route path="/keyboard-shortcut" element={<KeyboardShortcutExample />} />
+            <Route path="/a-lot-of-actions" element={<ALotOfActionsExample />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </CommandPalette>
   );
