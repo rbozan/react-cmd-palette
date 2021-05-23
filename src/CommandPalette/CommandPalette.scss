@@ -1,3 +1,12 @@
+.command-palette--overlay {
+  background: rgba(0, 0, 0, 0.25);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .command-palette {
   position: fixed;
   top: 0;
@@ -42,15 +51,29 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 1rem;
+      position: relative;
 
       &:hover,
       &:focus {
-        background: #000;
+        background: rgba(255, 255, 255, 0.1);
         cursor: pointer;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5),
-          inset 2px 0 rgba(255, 255, 255, 0.5);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         border: none;
         outline: none;
+
+        &::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          margin: auto 0;
+          left: 0;
+          width: 4px;
+          height: 80%;
+          background: rgba(255, 255, 255, 0.5);
+          border-top-right-radius: 8px;
+          border-bottom-right-radius: 8px;
+        }
       }
 
       &-title {

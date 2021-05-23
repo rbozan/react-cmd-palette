@@ -102,11 +102,9 @@ export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPal
         search(e.currentTarget.value);
     }
 
-    // TODO: Escape button does not work properly
     useHotkeys('escape', useCallback((e) => {
-        console.log('ESCAPE!', shown)
         if (shown) hide();
-    }, [shown]))
+    }, [shown]), { enableOnTags: ['INPUT'] })
 
     return (
         <CommandPaletteContext.Provider value={
@@ -114,21 +112,23 @@ export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPal
         }>
             {children}
 
-            {shown && <div className="command-palette">
-                <input type="search" {...InputProps} onInput={handleInput} /*ref={inputRef}*/ autoFocus />
-                <section className="command-palette--results">
-                    {filteredActions.map((action) => <div key={action.id} tabIndex={0} onKeyDown={(e) => {
-                        if (e.key === "Enter") return action.onSelect?.();
-                    }} className="command-palette--results-result" onClick={action.onSelect} >
-                        {action.leading && <div>{action.leading}</div>}
-                        <h6 className="command-palette--results-result-title">{action.title}</h6>
-                        {/* <small>id: {action.id}</small> */}
-                        <div className="trailing">
-                            <ArrowRight width={18} />
-                        </div>
-                    </div>)}
-                </section>
-            </div>}
+            {shown && <>
+                <div className="command-palette--overlay" onClick={hide}></div>
+                <div className="command-palette">
+                    <input type="search" {...InputProps} onInput={handleInput} /*ref={inputRef}*/ autoFocus />
+                    <section className="command-palette--results">
+                        {filteredActions.map((action) => <div key={action.id} tabIndex={0} onKeyDown={(e) => {
+                            if (e.key === "Enter") return action.onSelect?.();
+                        }} className="command-palette--results-result" onClick={action.onSelect} >
+                            {action.leading && <div>{action.leading}</div>}
+                            <h6 className="command-palette--results-result-title">{action.title}</h6>
+                            {/* <small>id: {action.id}</small> */}
+                            <div className="trailing">
+                                <ArrowRight width={18} />
+                            </div>
+                        </div>)}
+                    </section>
+                </div></>}
         </CommandPaletteContext.Provider >
     );
 }
