@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/react-command-palette/static/css/main.d9147dac.chunk.css",
-    "main.js": "/react-command-palette/static/js/main.dc76d9bc.chunk.js",
-    "main.js.map": "/react-command-palette/static/js/main.dc76d9bc.chunk.js.map",
-    "runtime-main.js": "/react-command-palette/static/js/runtime-main.2066a94c.js",
-    "runtime-main.js.map": "/react-command-palette/static/js/runtime-main.2066a94c.js.map",
-    "static/js/2.be9fd9b2.chunk.js": "/react-command-palette/static/js/2.be9fd9b2.chunk.js",
-    "static/js/2.be9fd9b2.chunk.js.map": "/react-command-palette/static/js/2.be9fd9b2.chunk.js.map",
-    "static/js/3.dc25dc96.chunk.js": "/react-command-palette/static/js/3.dc25dc96.chunk.js",
-    "static/js/3.dc25dc96.chunk.js.map": "/react-command-palette/static/js/3.dc25dc96.chunk.js.map",
+    "main.css": "/react-command-palette/static/css/main.234aa700.chunk.css",
+    "main.js": "/react-command-palette/static/js/main.59c86e3a.chunk.js",
+    "main.js.map": "/react-command-palette/static/js/main.59c86e3a.chunk.js.map",
+    "runtime-main.js": "/react-command-palette/static/js/runtime-main.52d273e2.js",
+    "runtime-main.js.map": "/react-command-palette/static/js/runtime-main.52d273e2.js.map",
+    "static/js/2.45ab27aa.chunk.js": "/react-command-palette/static/js/2.45ab27aa.chunk.js",
+    "static/js/2.45ab27aa.chunk.js.map": "/react-command-palette/static/js/2.45ab27aa.chunk.js.map",
+    "static/js/3.d8b90b04.chunk.js": "/react-command-palette/static/js/3.d8b90b04.chunk.js",
+    "static/js/3.d8b90b04.chunk.js.map": "/react-command-palette/static/js/3.d8b90b04.chunk.js.map",
     "index.html": "/react-command-palette/index.html",
-    "static/css/main.d9147dac.chunk.css.map": "/react-command-palette/static/css/main.d9147dac.chunk.css.map",
-    "static/js/2.be9fd9b2.chunk.js.LICENSE.txt": "/react-command-palette/static/js/2.be9fd9b2.chunk.js.LICENSE.txt",
+    "static/css/main.234aa700.chunk.css.map": "/react-command-palette/static/css/main.234aa700.chunk.css.map",
+    "static/js/2.45ab27aa.chunk.js.LICENSE.txt": "/react-command-palette/static/js/2.45ab27aa.chunk.js.LICENSE.txt",
     "static/media/arrow-up-right.4b0c4ca1.svg": "/react-command-palette/static/media/arrow-up-right.4b0c4ca1.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.2066a94c.js",
-    "static/js/2.be9fd9b2.chunk.js",
-    "static/css/main.d9147dac.chunk.css",
-    "static/js/main.dc76d9bc.chunk.js"
+    "static/js/runtime-main.52d273e2.js",
+    "static/js/2.45ab27aa.chunk.js",
+    "static/css/main.234aa700.chunk.css",
+    "static/js/main.59c86e3a.chunk.js"
   ]
 }
