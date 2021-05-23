@@ -4,7 +4,7 @@ import { Action } from "../CommandPalette";
 import CommandPaletteContext from "../CommandPalette/CommandPaletteContext";
 
 const ALotOfActionsExample = () => {
-    const { addAction, removeAction } = useContext(CommandPaletteContext);
+    const { addAction, removeAction, show } = useContext(CommandPaletteContext);
 
     const lorem = new LoremIpsum({
         sentencesPerParagraph: {
@@ -32,7 +32,7 @@ const ALotOfActionsExample = () => {
     }, []);
 
     return <>
-        <p>TODO: Open the command palette by pressing CTRL + P</p>
+        <p><button onClick={show}>Open the command palette</button></p>
     </>;
 }
 

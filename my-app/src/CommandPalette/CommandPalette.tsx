@@ -31,7 +31,7 @@ export interface Action {
 
 export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPaletteProps) => {
     const [actions, setActions] = useState<Action[]>([]);
-    const [isOpen, setOpen] = useState(false);
+    const [shown, setShown] = useState(false);
     const [input, setInput] = useState<string | undefined>(undefined);
 
     const defaultFuseOptions: typeof FuseOptions = {
@@ -51,9 +51,11 @@ export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPal
      * ```
      * */
     const addAction = (newAction: Action) => {
-        if (actions.find((action) => action.id === newAction.id)) throw Error('This action already has been added. Did you forget to remove this action with removeAction beforehand?')
 
-        return setActions(prevActions => [...prevActions, newAction])
+        return setActions(prevActions => {
+            if (prevActions.find((action) => action.id === newAction.id)) throw Error('This action already has been added. Did you forget to remove this action with removeAction beforehand?')
+            return [...prevActions, newAction]
+        })
     }
 
     /** Removes a certain action from the command palette */
@@ -62,10 +64,13 @@ export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPal
     }
 
     /** Shows the command palette to the user */
-    const show = () => setOpen(true);
+    const show = () => setShown(true);
 
     /** Hides the command palette for the user */
-    const hide = () => setOpen(false);
+    const hide = () => setShown(false);
+
+    /** Toggles the command palette for the user */
+    const toggle = () => setShown((prevShown) => !prevShown);
 
 
     const search = (text: string) => {
@@ -90,12 +95,12 @@ export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPal
 
     return (
         <CommandPaletteContext.Provider value={
-            { actions, addAction, removeAction, open: show }
+            { actions, addAction, removeAction, show, hide, toggle, shown }
         }>
             {children}
 
             {/* The actual command palette */}
-            {isOpen && <div className="command-palette">
+            {shown && <div className="command-palette">
                 <input {...InputProps} onInput={handleInput} />
                 <section className="command-palette--results">
                     {filteredActions.map((action) => <div key={action.id} className="command-palette--results-result">

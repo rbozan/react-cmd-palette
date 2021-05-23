@@ -3,7 +3,7 @@ import { Action } from "../CommandPalette";
 import CommandPaletteContext from "../CommandPalette/CommandPaletteContext";
 
 const BasicExample = () => {
-    const { addAction, removeAction, open } = useContext(CommandPaletteContext);
+    const { addAction, removeAction, show: open } = useContext(CommandPaletteContext);
 
     const testAction: Action = { id: 1, title: 'Open user settings' }
 
