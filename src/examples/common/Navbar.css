@@ -13,3 +13,16 @@ nav {
   display: flex;
   gap: 1rem;
 }
+
+input {
+  padding: 0.5rem 0.25rem;
+  position: relative;
+}
+
+input::after {
+  content: "Click here to toggle the command palette";
+
+  top: 0;
+  left: 0;
+  background: red;
+}

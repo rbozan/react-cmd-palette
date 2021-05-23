@@ -12,6 +12,7 @@ import "./CommandPalette.scss";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { ReactComponent as ArrowRight } from "./icons/arrow-up-right.svg";
+import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
 
 interface CommandPaletteProps {
   /**
@@ -22,10 +23,11 @@ interface CommandPaletteProps {
 
   children: React.ReactNode;
 
-  InputProps?: React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  >;
+  InputProps?: HTMLMotionProps<"input">;
+  // InputProps?: React.DetailedHTMLProps<
+  //   React.InputHTMLAttributes<HTMLInputElement>,
+  //   HTMLInputElement
+  // >;
 }
 
 export interface Action {
@@ -194,56 +196,71 @@ export const CommandPalette = ({
     >
       {children}
 
-      {shown && (
-        <>
-          <div className="command-palette--overlay" onClick={hide}></div>
-          <div className="command-palette">
-            <header className="command-palette--header">
-              <input
-                type="search"
-                {...InputProps}
-                onInput={handleInput}
-                ref={inputRef}
-                autoFocus
-              />
-              <div className="command-palette--header--help">
-                <div>
-                  <kbd>↑↓</kbd> or <kbd>tab</kbd> to navigate
-                </div>
-                <div>
-                  <kbd>enter</kbd> or <kbd>click</kbd> to select
-                </div>
-                <div>
-                  <kbd>esc</kbd> to close
-                </div>
-              </div>
-            </header>
-            <section className="command-palette--results" tabIndex={-1}>
-              {filteredActions.map((action, i) => (
-                <div
-                  key={action.id}
-                  tabIndex={0}
-                  ref={(el) => (itemsRef.current[i] = el)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") return action.onSelect?.();
-                  }}
-                  className="command-palette--results-result"
-                  onClick={action.onSelect}
-                >
-                  {action.leading && <div>{action.leading}</div>}
-                  <h6 className="command-palette--results-result-title">
-                    {action.title}
-                  </h6>
-                  {/* <small>id: {action.id}</small> */}
-                  <div className="trailing">
-                    <ArrowRight width={18} />
+      <AnimatePresence>
+        {shown && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.2 } }}
+              exit={{ opacity: 0, transition: { duration: 0.2 } }}
+              className="command-palette--overlay"
+              onClick={hide}
+            ></motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.2 } }}
+              exit={{ opacity: 0, transition: { duration: 0.2 } }}
+              className="command-palette"
+            >
+              <header className="command-palette--header">
+                <motion.input
+                  layoutId="command-palette-input"
+                  type="search"
+                  {...InputProps}
+                  onInput={handleInput}
+                  ref={inputRef}
+                  autoFocus
+                />
+                <div className="command-palette--header--help">
+                  <div>
+                    <kbd>↑↓</kbd> or <kbd>tab</kbd> to navigate
+                  </div>
+                  <div>
+                    <kbd>enter</kbd> or <kbd>click</kbd> to select
+                  </div>
+                  <div>
+                    <kbd>esc</kbd> to close
                   </div>
                 </div>
-              ))}
-            </section>
-          </div>
-        </>
-      )}
+              </header>
+              <section className="command-palette--results" tabIndex={-1}>
+                {filteredActions.map((action, i) => (
+                  <div
+                    key={action.id}
+                    tabIndex={0}
+                    ref={(el) => (itemsRef.current[i] = el)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") return action.onSelect?.();
+                    }}
+                    className="command-palette--results-result"
+                    onClick={action.onSelect}
+                  >
+                    {action.leading && <div>{action.leading}</div>}
+                    <h6 className="command-palette--results-result-title">
+                      {action.title}
+                    </h6>
+                    {/* <small>id: {action.id}</small> */}
+                    <div className="trailing">
+                      <ArrowRight width={18} />
+                    </div>
+                  </div>
+                ))}
+              </section>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </CommandPaletteContext.Provider>
   );
 };
