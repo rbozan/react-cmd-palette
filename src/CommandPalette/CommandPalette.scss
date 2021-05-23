@@ -18,28 +18,33 @@
   max-height: 400px;
   margin: auto;
   background: rgba(24, 24, 24, 0.8);
-  color: rgba(255, 255, 255, 0.8);
+  color: #eee;
 
   border-radius: 4px;
   backdrop-filter: blur(4px);
 
   border: 1px solid rgba(0, 0, 0, 0.5);
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 
   display: flex;
   flex-direction: column;
 
   input {
     width: 100%;
+
+    // Opinionated
     background: rgba(24, 24, 24, 0.6);
-    color: #eee;
+    color: inherit;
     padding: 1rem;
     box-sizing: border-box;
     border: 0 solid #b8b8b8;
-    border-bottom-width: 1px;
+    border-bottom-width: 2px;
+    border-style: groove;
     border-radius: 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    font: inherit;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5),
+      inset 0 1px 1px rgba(255, 255, 255, 0.1);
   }
 
   &--results {
@@ -74,6 +79,10 @@
           border-top-right-radius: 8px;
           border-bottom-right-radius: 8px;
         }
+      }
+
+      &:active {
+        background: rgba(255, 255, 255, 0.2);
       }
 
       &-title {
