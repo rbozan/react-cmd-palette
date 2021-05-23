@@ -1,2 +1,2 @@
-export * from './CommandPalette'
-export * from './CommandPaletteContext'
+export * from "./CommandPalette";
+export * from "./CommandPaletteContext";
