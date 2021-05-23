@@ -4,6 +4,11 @@ header {
   box-sizing: border-box;
 }
 
+header .container {
+  display: flex;
+  justify-content: space-between;
+}
+
 nav {
   display: flex;
   gap: 1rem;

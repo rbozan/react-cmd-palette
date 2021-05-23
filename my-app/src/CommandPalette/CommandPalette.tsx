@@ -1,8 +1,10 @@
-import { FormEvent, useCallback, useMemo, useState } from "react";
+import { createRef, FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import CommandPaletteContext from "./CommandPaletteContext"
 import Fuse from 'fuse.js'
 import './CommandPalette.css'
 import { useHotkeys } from "react-hotkeys-hook";
+
+import { ReactComponent as ArrowRight } from './icons/arrow-up-right.svg';
 
 interface CommandPaletteProps {
     /**
@@ -37,6 +39,7 @@ export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPal
     const [actions, setActions] = useState<Action[]>([]);
     const [shown, setShown] = useState(false);
     const [input, setInput] = useState<string | undefined>(undefined);
+    // const inputRef = createRef<HTMLInputElement>();
 
     /**
      * Adds a new action to the command palette.
@@ -72,6 +75,9 @@ export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPal
     /** Toggles the command palette for the user */
     const toggle = () => setShown((prevShown) => !prevShown);
 
+    // useEffect(() => {
+    //     if (shown) inputRef.current?.focus();
+    // }, [inputRef, shown])
 
     const search = (text: string) => {
         setInput(text);
@@ -109,14 +115,17 @@ export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPal
             {children}
 
             {shown && <div className="command-palette">
-                <input type="search" {...InputProps} onInput={handleInput} />
+                <input type="search" {...InputProps} onInput={handleInput} /*ref={inputRef}*/ autoFocus />
                 <section className="command-palette--results">
                     {filteredActions.map((action) => <div key={action.id} tabIndex={0} onKeyDown={(e) => {
                         if (e.key === "Enter") return action.onSelect?.();
                     }} className="command-palette--results-result" onClick={action.onSelect} >
-                        <div>{action.leading}</div>
+                        {action.leading && <div>{action.leading}</div>}
                         <h6 className="command-palette--results-result-title">{action.title}</h6>
                         {/* <small>id: {action.id}</small> */}
+                        <div className="trailing">
+                            <ArrowRight width={18} />
+                        </div>
                     </div>)}
                 </section>
             </div>}

@@ -7,8 +7,8 @@ const Navbar = () => {
     const { show } = useContext(CommandPaletteContext);
     return <header>
         <div className="container">
-            <div className="logo"><code>React CMD Palette</code></div>
-            <input type="search" placeholder="Search something" onFocus={show} />
+            <div className="logo"><code>react-cmd-palette</code></div>
+            <input type="search" placeholder="What are you searching for?" onFocus={show} />
             <nav>
                 <Link to="/basic">Basic example</Link>
                 <Link to="/keyboard-shortcut">Keyboard shortcut</Link>

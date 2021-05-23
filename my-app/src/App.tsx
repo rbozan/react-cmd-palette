@@ -9,7 +9,7 @@ import ALotOfActionsExample from "./examples/ALotOfActionsExample";
 
 function App() {
   return (
-    <CommandPalette InputProps={{ placeholder: "What do you want to search?" }}>
+    <CommandPalette InputProps={{ placeholder: "What are you searching for?" }}>
       <BrowserRouter>
         <Navbar />
         <div className="container">

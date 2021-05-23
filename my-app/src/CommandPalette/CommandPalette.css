@@ -8,20 +8,21 @@
   max-width: 500px;
   max-height: 400px;
   margin: auto;
-  background: rgba(24, 24, 24, 0.9);
-  color: rgba(24, 24, 24, 0.8);
+  background: rgba(24, 24, 24, 0.8);
+  color: rgba(255, 255, 255, 0.8);
 
   border-radius: 4px;
   backdrop-filter: blur(4px);
 
   border: 1px solid rgba(0, 0, 0, 0.5);
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .command-palette input {
   width: 100%;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(24, 24, 24, 0.6);
+  color: #eee;
   padding: 1rem;
   box-sizing: border-box;
   border: 0 solid #b8b8b8;
@@ -42,8 +43,15 @@
 .command-palette--results-result {
   display: flex;
   align-items: center;
-  justify-content: stretch;
+  justify-content: space-between;
+  align-items: center;
   padding: 1rem 1rem;
+}
+
+.command-palette .trailing {
+  display: inherit;
+  align-items: inherit;
+  justify-content: inherit;
 }
 
 .command-palette--results-result:hover,
