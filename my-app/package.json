@@ -1,6 +1,24 @@
 {
-  "name": "my-app",
+  "name": "react-cmd-palette",
   "version": "0.1.0",
+  "author": {
+    "name": "Robin Bozan",
+    "url": "https://bozan.nl"
+  },
+  "description": "A command palette for React. Like CTRL + P in Visual Studio Code but then for your React app!",
+  "keywords": [
+    "command-palette",
+    "ctrl-p",
+    "fuzzy-finder",
+    "react",
+    "typescript"
+  ],
+  "repository": {
+    "url": "https://github.com/rbozan/react-command-palette"
+  },
+  "bugs": {
+    "url": "https://github.com/rbozan/react-command-palette/issues"
+  },
   "private": true,
   "devDependencies": {
     "@testing-library/react": "^11.2.7",
@@ -46,5 +64,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "$schema": "https://json.schemastore.org/package"
 }
