@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import { CommandPalette } from "./CommandPalette";
 import BasicExample from "./examples/BasicExample";
 import Navbar from "./examples/common/Navbar";

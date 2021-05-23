@@ -3,27 +3,27 @@ import { LoremIpsum } from "lorem-ipsum";
 import { Action } from "../CommandPalette";
 import CommandPaletteContext from "../CommandPalette/CommandPaletteContext";
 
+const lorem = new LoremIpsum({
+    sentencesPerParagraph: {
+        max: 8,
+        min: 4
+    },
+    wordsPerSentence: {
+        max: 16,
+        min: 4
+    }
+});
+
+const testActions: Action[] = Array.from({ length: 50 }, (_, i) => ({
+    id: i,
+    title: lorem.generateSentences(1),
+    onSelect: () => {
+        alert('You selected action #' + i);
+    }
+}))
+
 const ALotOfActionsExample = () => {
     const { addAction, removeAction, show } = useContext(CommandPaletteContext);
-
-    const lorem = new LoremIpsum({
-        sentencesPerParagraph: {
-            max: 8,
-            min: 4
-        },
-        wordsPerSentence: {
-            max: 16,
-            min: 4
-        }
-    });
-
-    const testActions: Action[] = Array.from({ length: 50 }, (_, i) => ({
-        id: i,
-        title: lorem.generateSentences(1),
-        onSelect: () => {
-            alert('You selected action #' + i);
-        }
-    }))
 
     useEffect(() => {
         testActions.forEach((testAction) => addAction(testAction));
@@ -31,7 +31,7 @@ const ALotOfActionsExample = () => {
         return () => {
             testActions.forEach((testAction) => removeAction(testAction));
         }
-    }, []);
+    }, [addAction, removeAction]);
 
     return <>
         <p><button onClick={show}>Open the command palette</button></p>

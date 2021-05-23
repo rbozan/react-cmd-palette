@@ -1,4 +1,4 @@
-import { createRef, FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { FormEvent, useCallback, useMemo, useState } from "react";
 import CommandPaletteContext from "./CommandPaletteContext"
 import Fuse from 'fuse.js'
 import './CommandPalette.scss'
@@ -34,6 +34,10 @@ export interface Action {
     onSelect?: () => void
 
 }
+
+const defaultFuseOptions: CommandPaletteProps['FuseOptions'] = {
+    keys: ['title'],
+};
 
 export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPaletteProps) => {
     const [actions, setActions] = useState<Action[]>([]);
@@ -83,11 +87,7 @@ export const CommandPalette = ({ children, InputProps, FuseOptions }: CommandPal
         setInput(text);
     }
 
-
-    const defaultFuseOptions: typeof FuseOptions = {
-        keys: ['title'],
-    };
-    const MergedFuseOptions = useMemo(() => ({ ...defaultFuseOptions, ...FuseOptions }), [defaultFuseOptions, FuseOptions])
+    const MergedFuseOptions = useMemo(() => ({ ...defaultFuseOptions, ...FuseOptions }), [FuseOptions])
 
     const filteredActions = useMemo(() => {
         if (!input) return actions;
