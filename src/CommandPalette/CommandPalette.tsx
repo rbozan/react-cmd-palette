@@ -1,7 +1,7 @@
 import { createRef, FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import CommandPaletteContext from "./CommandPaletteContext"
 import Fuse from 'fuse.js'
-import './CommandPalette.css'
+import './CommandPalette.scss'
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { ReactComponent as ArrowRight } from './icons/arrow-up-right.svg';

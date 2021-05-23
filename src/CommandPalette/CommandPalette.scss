@@ -1,0 +1,68 @@
+.command-palette {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 500px;
+  max-height: 400px;
+  margin: auto;
+  background: rgba(24, 24, 24, 0.8);
+  color: rgba(255, 255, 255, 0.8);
+
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+
+  display: flex;
+  flex-direction: column;
+
+  input {
+    width: 100%;
+    background: rgba(24, 24, 24, 0.6);
+    color: #eee;
+    padding: 1rem;
+    box-sizing: border-box;
+    border: 0 solid #b8b8b8;
+    border-bottom-width: 1px;
+    border-radius: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  &--results {
+    overflow: auto;
+
+    &-result {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1rem;
+
+      &:hover,
+      &:focus {
+        background: #000;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5),
+          inset 2px 0 rgba(255, 255, 255, 0.5);
+        border: none;
+        outline: none;
+      }
+
+      &-title {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+
+  .trailing {
+    display: inherit;
+    align-items: inherit;
+    justify-content: inherit;
+  }
+}
