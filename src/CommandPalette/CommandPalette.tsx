@@ -1,4 +1,11 @@
-import { FormEvent, useCallback, useMemo, useState } from "react";
+import {
+  FormEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import CommandPaletteContext from "./CommandPaletteContext";
 import Fuse from "fuse.js";
 import "./CommandPalette.scss";
@@ -49,7 +56,12 @@ export const CommandPalette = ({
   const [actions, setActions] = useState<Action[]>([]);
   const [shown, setShown] = useState(false);
   const [input, setInput] = useState<string | undefined>(undefined);
-  // const inputRef = createRef<HTMLInputElement>();
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
+  useEffect(() => {
+    itemsRef.current = itemsRef.current.slice(0, actions.length);
+  }, [actions]);
 
   /**
    * Adds a new action to the command palette.
@@ -57,13 +69,15 @@ export const CommandPalette = ({
    * To add a dynamic action, you could combine `addAction` and `removeAction` with `useEffect`.
    * @example
    * ```typescript
+   * const action = { id: 'config', name: 'Open user configuration' };
+   *
    * useEffect(() => {
-   *  addAction({ id: 'config', name: 'Open user configuration' })
-   *  return () => { removeAction({ id: 'config' }) }
-   * })
+   *  addAction(action);
+   *  return () => { removeAction(action) };
+   * }, [addAction, removeAction]);
    * ```
    * */
-  const addAction = (newAction: Action) => {
+  const addAction = useCallback((newAction: Action) => {
     return setActions((prevActions) => {
       if (prevActions.find((action) => action.id === newAction.id))
         throw Error(
@@ -71,14 +85,14 @@ export const CommandPalette = ({
         );
       return [...prevActions, newAction];
     });
-  };
+  }, []);
 
   /** Removes a certain action from the command palette */
-  const removeAction = (givenAction: Action) => {
+  const removeAction = useCallback((givenAction: Action) => {
     return setActions((prevActions) =>
       prevActions.filter((action) => action.id !== givenAction.id)
     );
-  };
+  }, []);
 
   /** Shows the command palette to the user */
   const show = () => setShown(true);
@@ -104,13 +118,17 @@ export const CommandPalette = ({
 
   const filteredActions = useMemo(() => {
     if (!input) return actions;
+
+    console.time("fuse");
     var fuse = new Fuse<Action>(actions, MergedFuseOptions);
 
     const results = fuse.search(input);
-    console.log("fuse results", fuse.search(input));
-    return results
+    const sortedResults = results
       .sort((a, b) => (a.score ?? 0) - (b.score ?? 0))
       .map((v) => v.item);
+    console.log("fuse results", results);
+    console.timeEnd("fuse");
+    return sortedResults;
   }, [actions, input, MergedFuseOptions]);
 
   const handleInput = (e: FormEvent<HTMLInputElement>) => {
@@ -122,6 +140,48 @@ export const CommandPalette = ({
     useCallback(
       (e) => {
         if (shown) hide();
+      },
+      [shown]
+    ),
+    { enableOnTags: ["INPUT"] }
+  );
+
+  useHotkeys(
+    "up",
+    useCallback(
+      (e) => {
+        if (!shown) return;
+
+        e.preventDefault();
+
+        const prevElem = document.activeElement
+          ?.previousElementSibling as HTMLDivElement | null;
+
+        if (!prevElem && document.activeElement === itemsRef.current?.[0])
+          inputRef.current?.focus();
+        else if (!prevElem)
+          itemsRef.current?.[itemsRef.current?.length - 1]?.focus();
+        else prevElem.focus();
+      },
+      [shown]
+    ),
+    { enableOnTags: ["INPUT"] }
+  );
+
+  useHotkeys(
+    "down",
+    useCallback(
+      (e) => {
+        if (!shown) return;
+
+        e.preventDefault();
+
+        const nextElem = document.activeElement
+          ?.nextElementSibling as HTMLDivElement | null;
+
+        if (!nextElem) inputRef.current?.focus();
+        else if (nextElem.tabIndex === -1) itemsRef.current?.[0]?.focus();
+        else nextElem.focus();
       },
       [shown]
     ),
@@ -143,7 +203,8 @@ export const CommandPalette = ({
                 type="search"
                 {...InputProps}
                 onInput={handleInput}
-                /*ref={inputRef}*/ autoFocus
+                ref={inputRef}
+                autoFocus
               />
               <div className="command-palette--header--help">
                 <div>
@@ -157,11 +218,12 @@ export const CommandPalette = ({
                 </div>
               </div>
             </header>
-            <section className="command-palette--results">
-              {filteredActions.map((action) => (
+            <section className="command-palette--results" tabIndex={-1}>
+              {filteredActions.map((action, i) => (
                 <div
                   key={action.id}
                   tabIndex={0}
+                  ref={(el) => (itemsRef.current[i] = el)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") return action.onSelect?.();
                   }}
