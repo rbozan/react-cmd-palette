@@ -79,13 +79,13 @@ CustomPlaceholder.args = {
 const ComponentWhichTogglesCommandPalette = () => {
   const { toggle } = useContext(CommandPaletteContext);
   useHotkeys(
-    "ctrl+p",
+    "shift+p",
     (e) => {
       // Prevent default is here because CTRL + P usually starts the print dialog
       e.preventDefault();
       toggle();
     },
-    {}
+    { enableOnTags: ["INPUT"] }
   );
 
   return null;
@@ -94,7 +94,7 @@ const ComponentWhichTogglesCommandPalette = () => {
 const CustomKeybindingTemplate: Story<CommandPaletteProps> = (args) => (
   <CommandPalette {...args}>
     <p>
-      Press <kbd>ctrl</kbd> + <kbd>p</kbd> to toggle the command palette.
+      Press <kbd>shift</kbd> + <kbd>p</kbd> to toggle the command palette.
     </p>
     <ToggleCommandPaletteButton />
     <ComponentWhichRegistersActions />
