@@ -14,15 +14,23 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { ReactComponent as ArrowRight } from "./icons/arrow-up-right.svg";
 import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
 
-interface CommandPaletteProps {
+export interface CommandPaletteProps {
   /**
-   * Options provided by module Fuse.js.
+   * Options for the fuzzy searching which are provided by module Fuse.js.
    * Visit their [online documentation](https://fusejs.io/api/options.html) for more information.
    * */
   FuseOptions?: Fuse.IFuseOptions<Action>;
 
   children: React.ReactNode;
 
+  /**
+   * Options for the `input` element.
+   * These are the basic properties you can expect from an `input` element, with extra properties from Framer Motion. For more information about these extra properties from Framer Motion you can visit their [online documentation](https://www.framer.com/api/motion/component/#props).
+   * @example
+   * ```typescript
+   * <CommandPalette InputProps={{ placeholder: 'What action do you want to perform?' }}
+   * ```
+   * */
   InputProps?: HTMLMotionProps<"input">;
   // InputProps?: React.DetailedHTMLProps<
   //   React.InputHTMLAttributes<HTMLInputElement>,
@@ -50,6 +58,16 @@ const defaultFuseOptions: CommandPaletteProps["FuseOptions"] = {
   keys: ["title"],
 };
 
+/**
+ * @example
+ * ```typescript
+ * <CommandPalette
+ *     InputProps={{ placeholder: 'What action do you want to perform?' }}
+ *     FuseOptions={{ treshold: 0.2 }}
+ * >
+ * </CommandPalette>
+ * ```
+ */
 export const CommandPalette = ({
   children,
   InputProps,
