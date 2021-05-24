@@ -13,6 +13,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 import { ReactComponent as ArrowRight } from "./icons/arrow-up-right.svg";
 import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
+import { CommandPaletteNoResults } from "./CommandPaletteNoResults";
 
 export interface CommandPaletteProps {
   /**
@@ -22,6 +23,9 @@ export interface CommandPaletteProps {
   FuseOptions?: Fuse.IFuseOptions<Action>;
 
   children: React.ReactNode;
+
+  /** What to show when there are no results */
+  renderOnNoResults?: React.ReactNode;
 
   /**
    * Options for the `input` element.
@@ -56,6 +60,9 @@ export interface Action {
 
 const defaultFuseOptions: CommandPaletteProps["FuseOptions"] = {
   keys: ["title"],
+  includeScore: true,
+  includeMatches: true,
+  threshold: 0.2,
 };
 
 /**
@@ -70,6 +77,7 @@ const defaultFuseOptions: CommandPaletteProps["FuseOptions"] = {
  */
 export const CommandPalette = ({
   children,
+  renderOnNoResults = <CommandPaletteNoResults />,
   InputProps,
   FuseOptions,
 }: CommandPaletteProps) => {
@@ -147,6 +155,7 @@ export const CommandPalette = ({
       .sort((a, b) => (a.score ?? 0) - (b.score ?? 0))
       .map((v) => v.item);
     console.log("fuse results", results);
+    console.log("fuse matches", results?.[0]?.matches);
     console.timeEnd("fuse");
     return sortedResults;
   }, [actions, input, MergedFuseOptions]);
@@ -253,27 +262,29 @@ export const CommandPalette = ({
                 </div>
               </header>
               <section className="command-palette--results" tabIndex={-1}>
-                {filteredActions.map((action, i) => (
-                  <div
-                    key={action.id}
-                    tabIndex={0}
-                    ref={(el) => (itemsRef.current[i] = el)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") return action.onSelect?.();
-                    }}
-                    className="command-palette--results-result"
-                    onClick={action.onSelect}
-                  >
-                    {action.leading && <div>{action.leading}</div>}
-                    <h6 className="command-palette--results-result-title">
-                      {action.title}
-                    </h6>
-                    {/* <small>id: {action.id}</small> */}
-                    <div className="trailing">
-                      <ArrowRight width={18} />
-                    </div>
-                  </div>
-                ))}
+                {filteredActions.length > 0
+                  ? filteredActions.map((action, i) => (
+                      <div
+                        key={action.id}
+                        tabIndex={0}
+                        ref={(el) => (itemsRef.current[i] = el)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") return action.onSelect?.();
+                        }}
+                        className="command-palette--results-result"
+                        onClick={action.onSelect}
+                      >
+                        {action.leading && <div>{action.leading}</div>}
+                        <p className="command-palette--results-result-title">
+                          {action.title}
+                        </p>
+                        {/* <small>id: {action.id}</small> */}
+                        <div className="trailing">
+                          <ArrowRight width={18} />
+                        </div>
+                      </div>
+                    ))
+                  : renderOnNoResults}
               </section>
             </motion.div>
           </>
