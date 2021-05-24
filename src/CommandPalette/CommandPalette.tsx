@@ -61,8 +61,12 @@ export interface Action {
 const defaultFuseOptions: CommandPaletteProps["FuseOptions"] = {
   keys: ["title"],
   includeScore: true,
-  includeMatches: true,
+  //includeMatches: true, TODO: Highlighting
   threshold: 0.2,
+};
+
+const defaultInputOptions: CommandPaletteProps["InputProps"] = {
+  placeholder: "What are you searching for?",
 };
 
 /**
@@ -142,6 +146,11 @@ export const CommandPalette = ({
   const MergedFuseOptions = useMemo(
     () => ({ ...defaultFuseOptions, ...FuseOptions }),
     [FuseOptions]
+  );
+
+  const MergedInputProps = useMemo(
+    () => ({ ...defaultInputOptions, ...InputProps }),
+    [InputProps]
   );
 
   const filteredActions = useMemo(() => {
@@ -244,7 +253,7 @@ export const CommandPalette = ({
                 <motion.input
                   layoutId="command-palette-input"
                   type="search"
-                  {...InputProps}
+                  {...MergedInputProps}
                   onInput={handleInput}
                   ref={inputRef}
                   autoFocus

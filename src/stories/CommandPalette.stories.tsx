@@ -65,9 +65,7 @@ const ComponentWhichRegistersActions = () => {
 };
 
 export const Default = Template.bind({});
-Default.args = {
-  InputProps: { placeholder: "What do you want to search?" },
-};
+Default.args = {};
 
 export const CustomPlaceholder = Template.bind({});
 CustomPlaceholder.args = {
