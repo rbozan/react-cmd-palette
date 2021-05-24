@@ -32,3 +32,6 @@ The reason is that components within your application could have several dynamic
 Let's say you want to add a sorting action when you are seeing a specific table, the action would then be registered and unregistered within that specific component. It is also immediately clear that the sorting action belongs to the table, as that sorting action is registered right in that component.
 
 But had we used a property, you would have had to somehow pass that new action up the component tree so you can add it as a property.
+
+## License
+MIT License, see [LICENSE.md](./LICENSE.md)

@@ -13,6 +13,7 @@
     "react",
     "typescript"
   ],
+  "license": "MIT",
   "repository": {
     "url": "https://github.com/rbozan/react-command-palette"
   },
