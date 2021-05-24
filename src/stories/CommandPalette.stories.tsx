@@ -6,9 +6,10 @@ import CommandPaletteContext from "../CommandPalette/CommandPaletteContext";
 
 import "./page.css";
 import { LoremIpsum } from "lorem-ipsum";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export default {
-  title: "CommandPalette",
+  title: "CommandPalette/Basics",
   component: CommandPalette,
   // argTypes: {
   //   backgroundColor: { control: "color" },
@@ -74,3 +75,32 @@ CustomPlaceholder.args = {
     placeholder: "Imagine if you couldn't search through all this... 😌",
   },
 };
+
+const ComponentWhichTogglesCommandPalette = () => {
+  const { toggle } = useContext(CommandPaletteContext);
+  useHotkeys(
+    "ctrl+p",
+    (e) => {
+      // Prevent default is here because CTRL + P usually starts the print dialog
+      e.preventDefault();
+      toggle();
+    },
+    {}
+  );
+
+  return null;
+};
+
+const CustomKeybindingTemplate: Story<CommandPaletteProps> = (args) => (
+  <CommandPalette {...args}>
+    <p>
+      Press <kbd>ctrl</kbd> + <kbd>p</kbd> to toggle the command palette.
+    </p>
+    <ToggleCommandPaletteButton />
+    <ComponentWhichRegistersActions />
+    <ComponentWhichTogglesCommandPalette />
+  </CommandPalette>
+);
+
+export const CustomKeybinding = CustomKeybindingTemplate.bind({});
+CustomKeybinding.args = {};
