@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import { Story, Meta } from "@storybook/react";
 
-import { CommandPalette, CommandPaletteProps } from "../CommandPalette";
+import { Action, CommandPalette, CommandPaletteProps } from "../CommandPalette";
 import CommandPaletteContext from "../CommandPalette/CommandPaletteContext";
 
 import "./page.css";
+import { LoremIpsum } from "lorem-ipsum";
 
 export default {
   title: "CommandPalette",
@@ -13,6 +14,25 @@ export default {
   //   backgroundColor: { control: "color" },
   // },
 } as Meta;
+
+const lorem = new LoremIpsum({
+  sentencesPerParagraph: {
+    max: 8,
+    min: 4,
+  },
+  wordsPerSentence: {
+    max: 16,
+    min: 4,
+  },
+});
+
+const testActions: Action[] = Array.from({ length: 50 }, (_, i) => ({
+  id: i,
+  title: lorem.generateSentences(1),
+  onSelect: () => {
+    alert("You selected action #" + i);
+  },
+}));
 
 const Template: Story<CommandPaletteProps> = (args) => (
   <CommandPalette {...args}>
@@ -33,10 +53,10 @@ const ComponentWhichRegistersActions = () => {
   const { addAction, removeAction } = useContext(CommandPaletteContext);
 
   useEffect(() => {
-    addAction({ id: "1", title: "Test" });
+    testActions.forEach((action) => addAction(action));
 
     return () => {
-      removeAction({ id: "1", title: "Test" });
+      testActions.forEach((action) => removeAction(action));
     };
   }, [addAction, removeAction]);
 
@@ -50,5 +70,7 @@ Default.args = {
 
 export const CustomPlaceholder = Template.bind({});
 CustomPlaceholder.args = {
-  InputProps: { placeholder: "What do you want to search?" },
+  InputProps: {
+    placeholder: "Imagine if you couldn't search through all this... 😌",
+  },
 };
