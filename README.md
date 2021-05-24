@@ -1,46 +1,34 @@
-# Getting Started with Create React App
+# react-cmd-palette
+![GitHub branch checks state](https://img.shields.io/github/checks-status/rbozan/react-cmd-palette/master?style=flat-square)
+![GitHub](https://img.shields.io/github/license/rbozan/react-cmd-palette?style=flat-square)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-cmd-palette?style=flat-square)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A command palette made for React, like Visual Studio Code's <kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd> but then for your React application.
 
-## Available Scripts
 
-In the project directory, you can run:
+## Common use cases
+- Search through a list of {pages, users, calendar appointments, emails, whatever} and {navigate to, remove, link, archive, whatever} it.
+- Add actions of your table like sorting, selecting, removing to the command palette so they can be accessed easier.
 
-### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Installation
+```bash
+# Using npm
+npm install react-cmd-palette
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```bash
+# Using yarn
+yarn add react-cmd-palette
+```
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Documentation (using Storybook)
+You can visit the online documentation on https://rbozan.github.com/react-cmd-palette .
 
-### `yarn build`
+## Why is this component designed to have an `addAction` and `removeAction` and not just pass an array as property?
+The reason is that components within your application could have several dynamic actions, where organizing these actions is also important.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Let's say you want to add a sorting action when you are seeing a specific table, the action would then be registered and unregistered within that specific component. It is also immediately clear that the sorting action belongs to the table, as that sorting action is registered right in that component.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+But had we used a property, you would have had to somehow pass that new action up the component tree so you can add it as a property.
