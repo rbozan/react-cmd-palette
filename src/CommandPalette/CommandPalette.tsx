@@ -119,7 +119,10 @@ export const CommandPalette = ({
     });
   }, []);
 
-  /** Removes a certain action from the command palette */
+  /**
+   * Removes a certain action from the command palette
+   * @todo Only make `id` required for `Action`
+   **/
   const removeAction = useCallback((givenAction: Action) => {
     return setActions((prevActions) =>
       prevActions.filter((action) => action.id !== givenAction.id)
