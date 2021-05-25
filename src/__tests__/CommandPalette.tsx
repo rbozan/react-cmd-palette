@@ -32,17 +32,25 @@ describe("CommandPalette", () => {
     const { show, addAction, removeAction, shown } = React.useContext(
       CommandPaletteContext
     );
-    const testAction: Action = {
-      id: 123,
-      title: "Test action",
-      onSelect: () => global.alert(),
-    };
+
+    const testActions: Action[] = [
+      {
+        id: 123,
+        title: "Test action",
+        onSelect: () => global.alert(),
+      },
+      {
+        id: 1234,
+        title: "An useless test action",
+        onSelect: () => {},
+      },
+    ];
 
     React.useEffect(() => {
-      addAction(testAction);
+      testActions.map((testAction) => addAction(testAction));
 
       return () => {
-        removeAction(testAction);
+        testActions.map((testAction) => removeAction(testAction));
       };
     }, [addAction, removeAction]);
     return (
@@ -67,14 +75,19 @@ describe("CommandPalette", () => {
     expect(getCommandPaletteInput()).toBeInTheDocument();
   });
 
-  test("calls `onSelect` when a task has been selected", () => {
+  test("renders the test action", () => {
+    fireEvent.click(screen.getByText("Open command palette"));
+    expect(screen.getByText("Test action")).toBeInTheDocument();
+  });
+
+  test("calls `onSelect` when a task has been selected and closes command palette", async () => {
     fireEvent.click(screen.getByText("Open command palette"));
     expect(global.alert).toHaveBeenCalledTimes(0);
     fireEvent.click(screen.getByText("Test action"));
     expect(global.alert).toHaveBeenCalledTimes(1);
+    await waitForElementToBeRemoved(getCommandPaletteInput());
   });
 
-  //test("closes command palette after selecting a task", () => {
   test("closes command palette when pressing escape", async () => {
     fireEvent.click(screen.getByText("Open command palette"));
     fireEvent.click(screen.getByText("Test action"));
@@ -86,5 +99,31 @@ describe("CommandPalette", () => {
     });
 
     await waitForElementToBeRemoved(getCommandPaletteInput());
+  });
+
+  test("shows an empty results component when there are no results", async () => {
+    fireEvent.click(screen.getByText("Open command palette"));
+    expect(screen.getByText("Test action")).toBeInTheDocument();
+
+    fireEvent.input(getCommandPaletteInput()!, {
+      target: { value: "some text which leads to no results" },
+    });
+
+    expect(screen.queryByText("Test action")).not.toBeInTheDocument();
+    expect(
+      screen.getByText("There are no actions to see here.")
+    ).toBeInTheDocument();
+  });
+
+  test("shows filtered actions when searching", async () => {
+    fireEvent.click(screen.getByText("Open command palette"));
+    expect(screen.getAllByText(" action", { exact: false }).length).toEqual(2);
+
+    fireEvent.input(getCommandPaletteInput()!, {
+      target: { value: "useless" },
+    });
+
+    expect(screen.queryByText("Test action")).not.toBeInTheDocument();
+    expect(screen.getByText("useless", { exact: false })).toBeInTheDocument();
   });
 });

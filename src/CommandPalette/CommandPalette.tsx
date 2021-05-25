@@ -55,7 +55,7 @@ export interface Action {
   data?: object;
 
   /** Event handler when the action has been selected */
-  onSelect?: () => void;
+  onSelect: () => void;
 }
 
 const defaultFuseOptions: CommandPaletteProps["FuseOptions"] = {
@@ -278,10 +278,14 @@ export const CommandPalette = ({
                         tabIndex={0}
                         ref={(el) => (itemsRef.current[i] = el)}
                         onKeyDown={(e) => {
-                          if (e.key === "Enter") return action.onSelect?.();
+                          if (e.key === "Enter") return action.onSelect();
                         }}
                         className="command-palette--results-result"
-                        onClick={action.onSelect}
+                        onClick={() => {
+                          const result = action.onSelect();
+                          hide();
+                          return result;
+                        }}
                       >
                         {action.leading && <div>{action.leading}</div>}
                         <p className="command-palette--results-result-title">
