@@ -24,7 +24,7 @@ yarn add react-cmd-palette
 
 
 ## Documentation (using Storybook)
-You can visit the online documentation on https://rbozan.github.com/react-cmd-palette .
+You can visit the online documentation on https://rbozan.github.io/react-cmd-palette .
 
 ## Why is this component designed to have an `addAction` and `removeAction` and not just pass an array as property?
 The reason is that components within your application could have several dynamic actions, where organizing these actions is also important.
