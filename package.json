@@ -1,6 +1,6 @@
 {
   "name": "react-cmd-palette",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Robin Bozan",
     "url": "https://bozan.nl"
@@ -21,7 +21,6 @@
     "url": "https://github.com/rbozan/react-command-palette/issues"
   },
   "homepage": "https://rbozan.github.io/react-command-palette/",
-  "private": true,
   "devDependencies": {
     "@storybook/addon-actions": "^6.2.9",
     "@storybook/addon-essentials": "^6.2.9",

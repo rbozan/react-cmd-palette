@@ -27,7 +27,7 @@ yarn add react-cmd-palette
 You can visit the online documentation on https://rbozan.github.io/react-cmd-palette .
 
 ## Theming support
-For theming support you could wrap the  `<Commandpalette` with `styled-components`, however you might just as well add a class to the input or modify the trailing or leading components based on your use case.
+For theming support you could wrap the  `<CommandPalette>` with `styled-components`, however you might just as well add a class to the input or modify the trailing or leading components based on your use case.
 
 ## Why is this component designed to have an `addAction` and `removeAction` and not just pass an array as property?
 The reason is that components within your application could have several dynamic actions, where organizing these actions is also important.
