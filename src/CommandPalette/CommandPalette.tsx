@@ -240,7 +240,7 @@ export const CommandPalette = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 0.2 } }}
               exit={{ opacity: 0, transition: { duration: 0.2 } }}
-              className="command-palette--overlay"
+              className="cp-overlay"
               onClick={hide}
             ></motion.div>
 
@@ -248,18 +248,18 @@ export const CommandPalette = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 0.2 } }}
               exit={{ opacity: 0, transition: { duration: 0.2 } }}
-              className="command-palette"
+              className="cp-wrapper"
             >
-              <header className="command-palette--header">
+              <header className="cp__header">
                 <motion.input
-                  layoutId="command-palette-input"
+                  layoutId="cp__input"
                   type="search"
                   {...MergedInputProps}
                   onInput={handleInput}
                   ref={inputRef}
                   autoFocus
                 />
-                <div className="command-palette--header--help">
+                <div className="cp__help">
                   <div>
                     <kbd>↑↓</kbd> or <kbd>tab</kbd> to navigate
                   </div>
@@ -271,7 +271,7 @@ export const CommandPalette = ({
                   </div>
                 </div>
               </header>
-              <section className="command-palette--results" tabIndex={-1}>
+              <section className="cp__results" tabIndex={-1}>
                 {filteredActions.length > 0
                   ? filteredActions.map((action, i) => (
                       <div
@@ -279,9 +279,13 @@ export const CommandPalette = ({
                         tabIndex={0}
                         ref={(el) => (itemsRef.current[i] = el)}
                         onKeyDown={(e) => {
-                          if (e.key === "Enter") return action.onSelect();
+                          if (e.key === "Enter") {
+                            const result = action.onSelect();
+                            hide();
+                            return result;
+                          }
                         }}
-                        className="command-palette--results-result"
+                        className="cp-result"
                         onClick={() => {
                           const result = action.onSelect();
                           hide();
@@ -289,12 +293,10 @@ export const CommandPalette = ({
                         }}
                       >
                         {action.leading && <div>{action.leading}</div>}
-                        <p className="command-palette--results-result-title">
-                          {action.title}
-                        </p>
+                        <p className="cp-result__title">{action.title}</p>
                         {/* <small>id: {action.id}</small> */}
                         {action.trailing !== false && (
-                          <div className="trailing">
+                          <div className="cp-result__trailing">
                             {action.trailing || <ArrowRight width={18} />}
                           </div>
                         )}

@@ -60,7 +60,7 @@ const InputWithTransition = () => {
 
   return (
     <motion.input
-      layoutId="command-palette-input"
+      layoutId="cp__input"
       type="search"
       placeholder="What are you searching for?"
       onFocus={show}

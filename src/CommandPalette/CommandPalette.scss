@@ -1,111 +1,114 @@
-.command-palette--overlay {
-  background: rgba(0, 0, 0, 0.25);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-}
-
-.command-palette {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  max-width: 500px;
-  max-height: 400px;
-  margin: auto;
-  background: rgba(24, 24, 24, 0.8);
-  color: #eee;
-
-  border-radius: 4px;
-  backdrop-filter: blur(4px);
-
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-
-  display: flex;
-  flex-direction: column;
-
-  z-index: 11;
-
-  input {
+.cp {
+  &-wrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     width: 100%;
+    max-width: 500px;
+    max-height: 400px;
+    margin: auto;
+    background: rgba(24, 24, 24, 0.8);
+    color: #eee;
 
-    // Opinionated
-    background: rgba(24, 24, 24, 0.6);
-    color: inherit;
-    padding: 1rem;
-    box-sizing: border-box;
-    border: 2px solid #b8b8b8;
-    border-radius: 2px;
-    font: inherit;
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    display: flex;
+    flex-direction: column;
+
+    z-index: 11;
   }
 
-  &--header {
+  &-overlay {
+    background: rgba(0, 0, 0, 0.25);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+  }
+
+  &__header {
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    &--help {
-      display: flex;
-      gap: 2rem;
-      margin-top: 1rem;
+
+    input {
+      width: 100%;
+
+      // Opinionated
+      background: rgba(24, 24, 24, 0.6);
+      color: inherit;
+      padding: 1rem;
+      box-sizing: border-box;
+      border: 2px solid #b8b8b8;
+      border-radius: 2px;
+      font: inherit;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
     }
   }
 
-  &--results {
+  &__help {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+
+  &__results {
     overflow: auto;
     height: 100%;
-
-    &-result {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 1rem;
-      position: relative;
-
-      &:hover,
-      &:focus {
-        background: rgba(255, 255, 255, 0.1);
-        cursor: pointer;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        border: none;
-        outline: none;
-
-        &::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          margin: auto 0;
-          left: 0;
-          width: 4px;
-          height: 80%;
-          background: rgba(255, 255, 255, 0.5);
-          border-top-right-radius: 8px;
-          border-bottom-right-radius: 8px;
-        }
-      }
-
-      &:active {
-        background: rgba(255, 255, 255, 0.2);
-      }
-
-      &-title {
-        margin: 0;
-        padding: 0;
-      }
-    }
   }
 
-  .trailing {
-    display: inherit;
-    align-items: inherit;
-    justify-content: inherit;
+  &-result {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1rem;
+    position: relative;
+
+    &:hover,
+    &:focus {
+      background: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border: none;
+      outline: none;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto 0;
+        left: 0;
+        width: 4px;
+        height: 80%;
+        background: rgba(255, 255, 255, 0.5);
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
+    }
+
+    &:active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    &__title {
+      margin: 0;
+      padding: 0;
+    }
+
+    &__trailing {
+      display: inherit;
+      align-items: inherit;
+      justify-content: inherit;
+    }
   }
 }
