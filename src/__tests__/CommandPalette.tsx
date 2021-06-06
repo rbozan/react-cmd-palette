@@ -35,13 +35,19 @@ describe("CommandPalette", () => {
 
     const testActions: Action[] = [
       {
-        id: 123,
+        id: 1,
         title: "Test action",
         onSelect: () => global.alert(),
       },
       {
-        id: 1234,
+        id: 2,
         title: "An useless test action",
+        onSelect: () => {},
+      },
+      {
+        id: 3,
+        title: "An action with custom trailing",
+        trailing: <p>A custom trailing component</p>,
         onSelect: () => {},
       },
     ];
@@ -117,7 +123,7 @@ describe("CommandPalette", () => {
 
   test("shows filtered actions when searching", async () => {
     fireEvent.click(screen.getByText("Open command palette"));
-    expect(screen.getAllByText(" action", { exact: false }).length).toEqual(2);
+    expect(screen.getAllByText(" action", { exact: false }).length).toEqual(3);
 
     fireEvent.input(getCommandPaletteInput()!, {
       target: { value: "useless" },
@@ -125,5 +131,14 @@ describe("CommandPalette", () => {
 
     expect(screen.queryByText("Test action")).not.toBeInTheDocument();
     expect(screen.getByText("useless", { exact: false })).toBeInTheDocument();
+  });
+
+  test("can have a custom trailing component", async () => {
+    fireEvent.click(screen.getByText("Open command palette"));
+    expect(
+      screen.getByText("An action with custom trailing")
+    ).toBeInTheDocument();
+
+    expect(screen.getByText("A custom trailing component")).toBeInTheDocument();
   });
 });

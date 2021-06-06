@@ -51,6 +51,8 @@ export interface Action {
   title: string;
   /** A component to display before the `title` */
   leading?: React.ReactNode;
+  /** A component to display at the end of the action. Provide `false` to disable the default arrow. */
+  trailing?: React.ReactNode | false;
   /** Additional data which describes the action */
   data?: object;
 
@@ -159,16 +161,12 @@ export const CommandPalette = ({
   const filteredActions = useMemo(() => {
     if (!input) return actions;
 
-    console.time("fuse");
     var fuse = new Fuse<Action>(actions, MergedFuseOptions);
 
     const results = fuse.search(input);
     const sortedResults = results
       .sort((a, b) => (a.score ?? 0) - (b.score ?? 0))
       .map((v) => v.item);
-    console.log("fuse results", results);
-    console.log("fuse matches", results?.[0]?.matches);
-    console.timeEnd("fuse");
     return sortedResults;
   }, [actions, input, MergedFuseOptions]);
 
@@ -295,9 +293,11 @@ export const CommandPalette = ({
                           {action.title}
                         </p>
                         {/* <small>id: {action.id}</small> */}
-                        <div className="trailing">
-                          <ArrowRight width={18} />
-                        </div>
+                        {action.trailing !== false && (
+                          <div className="trailing">
+                            {action.trailing || <ArrowRight width={18} />}
+                          </div>
+                        )}
                       </div>
                     ))
                   : renderOnNoResults}
